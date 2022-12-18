@@ -1,7 +1,6 @@
-## Clean Code❤️
+## Simple Gitlab CI/CD for Rancher❤️
 
-                   “Of course bad code can be cleaned up. But it’s very expensive.”
-                   ―Robert C. Martin
+                  
 
 ```
 Humans are the first people you writing code for them. We need to make sure that we're creating code that can be easily understand 
