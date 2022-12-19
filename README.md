@@ -11,25 +11,17 @@ Please use this project as an example to learn from, about making automation by 
 1- This <code>/.gitlab-ci.yaml/</code> template allows you to automate creation of a container. For this template I used Rancher. After running this template you will be
 able to deploy the container. Once deployment finished successfully you can see the logs and monitor it by the Rancher.
 
-#### What Is Clean Code?
+#### Predefined CI/CD Variables?
 
-* Written with human in mind                                              
-* Names are easy to understand                                            
-* Formatted consistently                                               
-* Clearly communication
+You can pass environment variables from one job to another job in a later stage through variable inheritance. These variables cannot be used as CI/CD variables to configure a pipeline, but they can be used in job scripts.
 
+* <code>CI_COMMIT_SHA</code> variable means: The commit revision for which project is built
+* I am using this <code>$CI_COMMIT_SHORT_SHA</code> variable into <code>docker-compose</code> which means: The first eight characters of <code>CI_COMMIT_SHA</code>. By this I wanted to use <code>CI_COMMIT_SHORT_SHA</code> as part of directory name which were later pushed to the server by rsync. It should have returned short hash from current commit.
+* <code>$CI_JOB_NAME</code> targets the job that need to be run by this config file.                                          
+* <code>CI_JOB_TOKEN</code> : Token used for authenticating with GitLab Container Registry, downloading dependent repositories, authenticate with multi-project pipelines when triggers are involved, and for downloading job artifacts.                                            
+* <code>$CI_REGISTRY</code> : I will return by this the address of GitLab's Container Registry.
+* <code>$CI_REGISTRY_IMAGE</code> : With GitLab, you can add a job to your pipeline to build Docker images, and push them to the built-in container registry. You can set to use previous image as a cache to speedup build process.
+* <code>$CI_PROJECT_DIR</code> : The full path where the repository is cloned and where the job is run.
 
-```
-That's where 'Clean Code' principles come into play. By following them, you will ensure that you are 
-creating code that will be understood.
-```
-
-#### Definition Of Clean Code
-
-* Easy To Read
-* Easy To Understand
-* Easy To Improve
-* Easy To Fix
-* Easy to Maintenance
-* Keep Test Code Clean
+<p dir="auto">More info can be found in <a href="https://gitlab.pavlovia.org/help/ci/variables/README.md"><code>docs/predefined/CI/CD variables</code></a>.</p>
 
