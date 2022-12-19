@@ -1,0 +1,19 @@
+base:
+  role: "full_node"
+  data_dir: "/mnt/aptos/data"
+  waypoint:
+    from_file: "/opt/aptos/etc/waypoint.txt"
+
+execution:
+  genesis_file_location: "/opt/aptos/etc/genesis.blob"
+
+full_node_networks:
+    - discovery_method: "onchain"
+      network_id: "public"
+      # Define the upstream peers to connect to
+      seeds:
+        {}
+
+api:
+  enabled: true
+  address: "0.0.0.0:8080"
