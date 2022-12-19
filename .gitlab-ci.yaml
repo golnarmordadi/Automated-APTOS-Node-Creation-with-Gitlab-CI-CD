@@ -3,6 +3,7 @@ stages:
   - build
   - deploy
 
+/** Setup your Rancher values*/
 variables: 
  RANCHER_URL: "https://rancher-prod/v1/"
  RANCHER_ACCESS_KEY: ""
