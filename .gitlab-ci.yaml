@@ -1,1 +1,44 @@
 
+stages:
+  - build
+  - deploy
+
+variables: 
+ RANCHER_URL: "https://rancher-prod/v1/"
+ RANCHER_ACCESS_KEY: ""
+ RANCHER_SECRET_KEY: ""
+ RANCHER_DEV_ENV: ""
+ SERVER_OUTLINE: ""
+
+build-rpc:
+  stage: build
+  image: docker:latest
+  variables:
+    DOCKERFILE_NAME: Dockerfile
+    JOB_NAME: $CI_JOB_NAME
+    COMMIT_SHA: $CI_COMMIT_SHA
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA -f $DOCKERFILE_NAME .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+
+deploy-test:
+  stage: deploy
+  when: manual
+  variables:
+    STACK: rpc-aptos-mainnet
+    COMPOSE_FILE: $CI_PROJECT_DIR/docker-compose.ci.yaml
+  image: registry.gitlab/base/rancher-cli:latest
+  script:
+    - |
+      rancher up -s $STACK -d --prune -p -u
+      if [ $? -ne 0 ]; then
+        rancher up -s $STACK -d -r
+        exit 1
+      else
+        rancher up -s $STACK -d -c
+      fi
+  only:
+    refs:
+      - master
+      - branches
