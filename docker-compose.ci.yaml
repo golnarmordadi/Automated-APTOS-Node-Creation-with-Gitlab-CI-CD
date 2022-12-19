@@ -1,0 +1,17 @@
+version: "2"
+services:
+  fullnode:
+    image:  $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+    command: >
+      /usr/local/bin/aptos-node --config /opt/aptos/etc/fullnode.yaml
+    restart: unless-stopped
+    ports:
+      - "6182:6182"
+      - "9101:9101"
+      - "9102:9102"
+      - "8082:8080"
+    expose:
+      - 6182
+      - 8080
+      - 9101
+      - 9102
